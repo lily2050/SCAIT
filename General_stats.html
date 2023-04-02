@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/node_modules/jscharting/dist/jscharting.js"></script>
+
+    <script type="text/javascript" src="/node_modules/jscharting/dist/modules/types.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="normalize.css">
+
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>احصائيات عامة</title>
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">إدارة الترسانات</span>
+                    <span class="profession">قسم شئون الأفراد</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <li class="search-box">
+                </li>
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="index.html">
+                            <i class='bx bx-home-alt bx-sm icon'></i>
+                            <span class="text nav-text">الرئيسية</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="General_stats.html">
+                            <i class='bx bx-bar-chart-alt-2 bx-sm icon'></i>
+                            <span class="text nav-text">احصائيات عامة</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="Employee_stats.html">
+                            <i class='bx bx-pie-chart-alt bx-sm icon'></i>
+                            <span class="text nav-text">احصائيات العاملين</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="Hours_statistic.html">
+                            <i class='bx bx-time-five bx-sm icon'></i>
+                            <span class="text nav-text">إحصائية الساعات</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="Hours_for_the_current_month.html">
+                            <i class='bx bx-calendar bx-sm icon'></i>
+                            <span class="text nav-text">الساعات للشهر الحالي</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="communication.html">
+                            <i class='bx bx-chat bx-sm icon'></i>
+                            <span class="text nav-text">التواصل</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">الوضع النهاري</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </div>
+        </div>
+
+    </nav>
+
+
+    <section class="home">
+        <div class="text">
+            <h1>احصائيات عامة</h1>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <h2>الأعداد بالنسبة لنوع العمالة</h2>
+                <div class="chart">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>الأعداد بالنسبة للبلاد</h2>
+                <div class="chart">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>الأعداد بالنسبة للدرجة</h2>
+                <div class="chart">
+                    <canvas id="myChart3"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>أعداد العاملين حسب النوع</h2>
+                <div class="chart">
+                    <canvas id="myChart4"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h2>حصة الساعات الإضافية</h2>
+                <div class="chart">
+                    <canvas id="myChart5"></canvas>
+                </div>
+                <p>Some text here.</p>
+            </div>
+            <div class="card">
+                <h2>الوفر والتجاوز</h2>
+                <div class="chart">
+                    <div id="piechart" style="width: 300px; height: 300px;"></div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"
+        integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="text/javascript">
+        Chart.defaults.font.size = 14;
+        Chart.defaults.color = '#000';
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['موظفين دائمين', 'موظفين عقود', 'موظفين معارين', 'عمال دائمين', 'عمال عقود', 'عقود شاملة'],
+                datasets: [{
+                    label: '',
+                    data: [146, 1, 12, 3005, 243, 230],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(7, 139, 38, 0.5)',
+                        'rgba(48, 17, 250, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(139, 7, 16, 0.5)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(7, 139, 38, 1)',
+                        'rgba(48, 17, 250, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(139, 7, 16, 1)',
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+                        backgroundcolor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(7, 139, 38, 0.5)',
+                            'rgba(48, 17, 250, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(139, 7, 16, 0.5)'
+                        ],
+                        bordercolor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(7, 139, 38, 0.5)',
+                            'rgba(48, 17, 250, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(139, 7, 16, 0.5)'
+                        ]
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['بورسعيد', 'الإسماعيلية', 'السويس'],
+                datasets: [{
+                    label: '',
+                    data: [2961, 61, 610],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+                        backgroundcolor: [
+                        ],
+                        bordercolor: [
+                        ]
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        var ctx3 = document.getElementById('myChart3').getContext('2d');
+        var chart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: [0, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 11, 12, 13],
+                datasets: [{
+                    label: '',
+                    data: [229, 2, 210, 607, 366, 225, 545, 566, 418, 437, 3, 21, 2, 1],
+                    backgroundColor: [
+                        "rgba(255, 0, 0, 0.5)",
+                        "rgba(0, 255, 0, 0.5)",
+                        "rgba(0, 0, 255, 0.5)",
+                        "rgba(255, 255, 0, 0.5)",
+                        "rgba(0, 255, 255, 0.5)",
+                        "rgba(255, 0, 255, 0.5)",
+                        "rgba(128, 0 ,0 ,0.5)",
+                        "rgba(128 ,128 ,0 ,0.5)",
+                        "rgba(0 ,128 ,0 ,0.5)",
+                        "rgba(128 ,0 ,128 ,0.5)",
+                        "rgba(0 ,128 ,128 ,0.5)",
+                        "rgba(255 ,165 ,0 ,0.5)",
+                        "rgba(139 ,69 ,19 ,0.5)",
+                        "rgba(75 ,0 ,130 ,0.5)"
+                    ],
+                    borderColor: [
+                        "rgba(255, 0, 0, 1)",
+                        "rgba(0, 255, 0, 1)",
+                        "rgba(0, 0, 255, 1)",
+                        "rgba(255, 255, 0, 1)",
+                        "rgba(0, 255, 255, 1)",
+                        "rgba(255, 0, 255, 1)",
+                        "rgba(128 ,0 ,0 ,1)",
+                        "rgba(128 ,128 ,0 ,1)",
+                        "rgba(0 ,128 ,0 ,1)",
+                        "rgba(128 ,0 ,128 ,1)",
+                        "rgba(0 ,128 ,128 ,1)",
+                        "rgba(255 ,165 ,0 ,1)",
+                        "rgba(139 ,69 ,19 ,1)",
+                        "rgba(75 ,0 ,130 ,1)"
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+                        backgroundcolor: [
+                        ],
+                        bordercolor: [
+
+                        ]
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        var ctx4 = document.getElementById('myChart4').getContext('2d');
+
+        var chart4 = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['سيدات', 'رجال'],
+                datasets: [{
+                    label: '',
+                    data: [51, 3581],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        text: 'hgh',
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+                        backgroundcolor: [
+                        ],
+                        bordercolor: [
+                        ]
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        var ctx5 = document.getElementById('myChart5').getContext('2d');
+        var chart5 = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['مستنفذ', 'متبقي', 'احتياطي'],
+                datasets: [{
+                    label: '',
+                    data: [183028, 837692, 77000],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        var ctx6 = document.getElementById('myChart6').getContext('2d');
+        var chart6 = new Chart(ctx6, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            plugins: [ChartDataLabels],
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                        color: 'plack',
+                        anchhor: 'end',
+                        align: 'top',
+                        offset: 10,
+                        font: {
+                            weight: 'bold',
+                            size: 12,
+                        },
+                        padding: 5,
+                        backgroundcolor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(7, 139, 38, 0.5)',
+                            'rgba(48, 17, 250, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(139, 7, 16, 0.5)'
+                        ],
+                        bordercolor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(7, 139, 38, 0.5)',
+                            'rgba(48, 17, 250, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(139, 7, 16, 0.5)'
+                        ]
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['الشهر', 'الوفر / التجاوز'],
+                ['يناير', 4937], ['فبراير', 3395]
+            ]);
+            var options = {
+                title: '',
+                legend: 'none',
+                pieSliceText: 'label',
+                backgroundColor: '',
+                location: 'center',
+                slices: {
+                    4: { offset: 0.2 },
+                    12: { offset: 0.3 },
+                    14: { offset: 0.4 },
+                    15: { offset: 0.5 },
+                },
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+</body>
+
+</html>
